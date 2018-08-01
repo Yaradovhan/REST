@@ -1,3 +1,3 @@
 RewriteEngine On
-#RewriteBase /api/
-RewriteRule (.*) http://192.168.0.15/~user6/REST/server/api/$1 [P]
+RewriteBase /api/
+RewriteRule (.*) http://localhost/REST/server/api/$1 [P]
