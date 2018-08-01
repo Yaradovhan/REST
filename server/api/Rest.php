@@ -8,25 +8,20 @@ class Rest extends Arecord
     public $params;
     public $table;
     public $method;
-// public $contentFormat;
+    public $contentFormat;
 // public $responseCode;
 
     public function parsUrl()
     {
         $url = $_SERVER['REQUEST_URI'];
-        dd($url);
-        list($s, $a, $d, $f, $table, $path) = explode('/', $url, 6);
-        dd([$s, $a, $d, $f, $table, $path]);
+        list($s, $a, $d, $f, $c, $table, $path) = explode('/', $url, 7);
         $this->method = $_SERVER['REQUEST_METHOD'];
-        dd($this->method);
         $this->table = $table;
-        dd($this->table);
-        dd($path);
         if (!empty($path)) {
             $clearString = mb_strtolower(strip_tags($path));
             $data = trim($clearString);
             preg_match("/\.\w+$/", $data, $format);
-            $this->contentType = $format[0];
+            $this->contentFormat = $format[0];
             $this->params = preg_replace("/\.\w+$/", "", $data);
         }
     }
@@ -36,7 +31,11 @@ class Rest extends Arecord
         $this->parsUrl();
         switch ($this->method) {
             case 'GET':
-                $this->setMethod('get' . ucfirst($this->table));
+            if($this->params == false){
+              $this->setMethod('get' . ucfirst($this->table));
+            } else {
+              $this->setMethod('get' . ucfirst($this->table), $this->params);
+            }
                 break;
             case 'DELETE':
                 $this->setMethod('delete' . ucfirst($this->table));
@@ -53,10 +52,10 @@ class Rest extends Arecord
         }
     }
 
-    function setMethod($method)
+    function setMethod($method, $param=null)
     {
         if (method_exists($this, $method)) {
-            $this->$method();
+            $this->$method($param);
         } else {
             echo "Error function setMethod";
         }

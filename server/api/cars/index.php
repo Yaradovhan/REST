@@ -12,13 +12,16 @@ class Cars extends Rest
         return mb_strtolower($tableName);
     }
 
-    public function getCars()
+    public function getCars($param)
     {
+      if($param == null){
         dd($this->getAll());
-
+      } else {
+        dd($this->findById(intval($param)));
+      }
     }
 
-    public function postCars()
+    public function postCars($param)
     {
         echo "Post cars";
         echo "enjoy";
@@ -27,7 +30,7 @@ class Cars extends Rest
 
     public function putCars()
     {
-
+        echo "PUT";
     }
 
     public function deleteCars()
