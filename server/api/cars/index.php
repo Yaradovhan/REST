@@ -15,10 +15,11 @@ class Cars extends Rest
     public function getCars($param)
     {
       if($param == null){
-        dd($this->getAll());
+        $data = $this->getAll();
       } else {
-        dd($this->findById(intval($param)));
+        $data = $this->findById(intval($param));
       }
+      $this->converter($data);
     }
 
     public function postCars($param)
