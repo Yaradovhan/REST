@@ -1,6 +1,6 @@
 <?php
-require_once 'config.php';
-require_once 'autoload.php';
+require_once '../../config.php';
+require_once '../../autoload.php';
 
 class Rest extends Arecord
 {
@@ -91,7 +91,7 @@ class Rest extends Arecord
                     break;
             }
         } else {
-            header("Content-Type: application/json");
+            header(DEFAULT_HEADER);
             $response = json_encode($data);
         }
         echo $response;

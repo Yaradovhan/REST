@@ -13,3 +13,5 @@ define('DSN_MY', 'mysql');
 define('DATABASE', 'rest');
 define('USER', 'root');
 define('PASSWORD', '');
+
+define('DEFAULT_HEADER', 'Content-Type: application/json');

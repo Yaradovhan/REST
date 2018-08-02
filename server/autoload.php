@@ -16,6 +16,7 @@ class Autoloader
      * performed once.
      */
     protected static $fileIterator = null;
+
     /**
      * Autoload function for registration with spl_autoload_register
      *
@@ -40,6 +41,7 @@ class Autoloader
             }
         }
     }
+
     /**
      * Sets the $fileExt property
      *
@@ -49,6 +51,7 @@ class Autoloader
     {
         static::$fileExt = $fileExt;
     }
+
     /**
      * Sets the $path property
      *
@@ -60,5 +63,6 @@ class Autoloader
         static::$pathTop = $path;
     }
 }
+
 Autoloader::setFileExt('.php');
 spl_autoload_register('Autoloader::loader');
