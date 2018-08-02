@@ -129,6 +129,7 @@ class Arecord extends Mysql
     public function getFieldsFromTable()
     {
         $results = $this->con->query('SHOW COLUMNS FROM ' . $this->tableName());
+        // dd($result);
         foreach ($results as $result) {
             $this->tableFields[] = $result['Field'];
         }

@@ -13,7 +13,7 @@ class Rest extends Arecord
     public function parsUrl()
     {
         $url = $_SERVER['REQUEST_URI'];
-        list($s, $a, $d, $f, $table, $path) = explode('/', $url, 6);
+        list($s, $a, $d, $f, $c, $table, $path) = explode('/', $url, 7);
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->table = $table;
         if (!empty($path)) {
@@ -55,6 +55,7 @@ class Rest extends Arecord
 
     public function setMethod($method, $param = null)
     {
+      // dd($method);
         if (method_exists($this, $method)) {
             $this->$method($param);
         } else {

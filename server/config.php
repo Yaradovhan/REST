@@ -10,8 +10,8 @@ function dd($param)
 
 define('DSN_PG', 'pgsql');
 define('DSN_MY', 'mysql');
-define('DATABASE', 'rest');
-define('USER', 'root');
-define('PASSWORD', '');
+define('DATABASE', 'user6');
+define('USER', 'user6');
+define('PASSWORD', 'user6');
 
 define('DEFAULT_HEADER', 'Content-Type: application/json');

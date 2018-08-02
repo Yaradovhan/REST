@@ -22,22 +22,22 @@ class Cars extends Rest
       $this->converter($data);
     }
 
-    public function postCars($param)
-    {
-        echo "Post cars";
-        echo "enjoy";
-
-    }
-
-    public function putCars()
-    {
-        echo "PUT";
-    }
-
-    public function deleteCars()
-    {
-
-    }
+    // public function postCars($param)
+    // {
+    //     echo "Post cars";
+    //     echo "enjoy";
+    //
+    // }
+    //
+    // public function putCars()
+    // {
+    //     echo "PUT";
+    // }
+    //
+    // public function deleteCars()
+    // {
+    //
+    // }
 
 }
 
