@@ -22,12 +22,12 @@ class Cars extends Rest
       $this->converter($data);
     }
 
-    // public function postCars($param)
-    // {
-    //     echo "Post cars";
-    //     echo "enjoy";
-    //
-    // }
+//     public function postCars($param)
+//     {
+//         echo "Post cars";
+//         echo "enjoy";
+//
+//     }
     //
     // public function putCars()
     // {
