@@ -1,9 +1,12 @@
 <?php
 
-include '../Rest.php';
+require_once '../Rest.php';
+require_once '../Responce.php';
+
 
 class Cars extends Rest
 {
+
     public function tableName()
     {
         $tableName = get_class($this);
@@ -14,30 +17,20 @@ class Cars extends Rest
 
     public function getCars($param)
     {
-      if($param == null){
-        $data = $this->getAll();
-      } else {
-        $data = $this->findById(intval($param));
-      }
-      $this->converter($data);
-    }
+        if ($param == null) {
+            $data = $this->getAll();
+        } else {
+            $data = $this->findById(intval($param));
+        }
+        if (!empty($data)) {
+            $resData = $this->converter($data);
+        } else {
+            echo "Error in getCars with param";
+            die();
+        }
 
-//     public function postCars($param)
-//     {
-//         echo "Post cars";
-//         echo "enjoy";
-//
-//     }
-    //
-    // public function putCars()
-    // {
-    //     echo "PUT";
-    // }
-    //
-    // public function deleteCars()
-    // {
-    //
-    // }
+        echo $this->responce->serverSuccess(200, $resData);
+    }
 
 }
 

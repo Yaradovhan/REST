@@ -5,62 +5,80 @@ require_once '../../autoload.php';
 class Rest extends Arecord
 {
 
-    public $params;
-    public $table;
-    public $method;
-    public $contentFormat;
+    protected $table;
+    protected $method;
+    protected $contentFormat;
+    protected $data;
+    protected $responce;
 
-    public function parsUrl()
+    public function __construct()
     {
-        $url = $_SERVER['REQUEST_URI'];
-        list($s, $a, $d, $f, $table, $path) = explode('/', $url, 6);
-        $this->method = $_SERVER['REQUEST_METHOD'];
-        $this->table = $table;
-        if (!empty($path)) {
-            $clearString = mb_strtolower(strip_tags($path));
-            $data = trim($clearString);
-            preg_match("/\.\w+$/", $data, $format);
-            if (!empty($format)) {
-                $this->contentFormat = substr($format[0], 1);
-            }
-            $this->params = preg_replace("/\.\w+$/", "", $data);
-        }
+        parent::__construct();
+        $this->responce = new Response();
     }
 
     public function start()
     {
-        $this->parsUrl();
+        $this->getData();
         switch ($this->method) {
             case 'GET':
-                if ($this->params == false) {
-                    $this->setMethod('get' . ucfirst($this->table));
-                } else {
-                    $this->setMethod('get' . ucfirst($this->table), $this->params);
-                }
+                $this->setMethod('get' . ucfirst($this->table), $this->getData());
                 break;
             case 'DELETE':
-                $this->setMethod('delete' . ucfirst($this->table));
+                $this->setMethod('delete' . ucfirst($this->table), $this->getData());
                 break;
             case 'POST':
-                $this->params = $_POST;
-                $this->setMethod('post' . ucfirst($this->table));
+                $this->setMethod('post' . ucfirst($this->table), $this->getData());
                 break;
             case 'PUT':
-                $this->setMethod('put' . ucfirst($this->table));
+                $this->setMethod('put' . ucfirst($this->table), $this->getData());
                 break;
             default:
                 return false;
         }
     }
 
-    public function setMethod($method, $param = null)
+    public function getData()
     {
-      // dd($method);
+        $url = $_SERVER['REQUEST_URI'];
+        list($s, $a, $d, $table, $path) = explode('/', $url, 5);
+        $this->method = $_SERVER['REQUEST_METHOD'];
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: PUT, POST, GET, DELETE');
+        header('Access-Control-Allow-Headers: Authorization, Content-Type');
+        $this->table = $table;
+
+        if ($this->method == 'GET' || $this->method == 'DELETE') {
+            $clearString = mb_strtolower(strip_tags($path));
+            $data = trim($clearString);
+            preg_match("/\.\w+$/", $data, $format);
+            if (!empty($format)) {
+                $this->contentFormat = substr($format[0], 1);
+            }
+            $this->data = preg_replace("/\.\w+$/", "", $data);
+
+            return $this->data;
+        }
+
+        if ($this->method == 'POST') {
+            $this->data = $_POST;
+
+            return $this->data;
+        }
+
+        if ($this->method == 'PUT') {
+            $this->data = json_decode(file_get_contents("php://input"), true);
+
+            return $this->data;
+        }
+    }
+
+    public function setMethod($method, $data = null)
+    {
         if (method_exists($this, $method)) {
-            $this->$method($param);
+            $this->$method($data);
         } else {
-            echo "Error function setMethod" . "<br>";
-            echo "Error 505";
+            echo $this->method . "Error function setMethod" . "<br>";
         }
     }
 
@@ -95,7 +113,7 @@ class Rest extends Arecord
             header(DEFAULT_HEADER);
             $response = json_encode($data);
         }
-        echo $response;
+        return $response;
     }
 
 
